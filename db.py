@@ -2,7 +2,7 @@
 
 import sqlite3
 import time
-from printing import displayShow, displayLog
+from printing import displayShow, displayLog, error
 
 # Todo use $HOME instead for file location
 con = sqlite3.connect('Epcounter.db')
@@ -70,21 +70,9 @@ def log(showID, action):
 	con.commit()
 
 
-def addShow():
-	# Todo: inputs shouldn't be in db.py
-	name = input('Name: ')
-	url = input('URL (\'@\' for the number): ')
-	padding = input('Padding (default 0): ')
-	state = input('State? (0=watch, 3=to watch, 4=maybe watch)')
+def addShow(item):
 
-	if state != '':
-		state = int(state)
-	else:
-		# default value
-		state = 4
-
-	if padding.strip() == '': padding = '0'
-	padding = int(padding)
+	name, url, padding, state = item
 
 	cur.execute('INSERT into shows(name, url, padding, state) values (?,?,?,?)', (name, url, padding, state))
 	id1 = int(cur.lastrowid)
