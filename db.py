@@ -133,9 +133,21 @@ def getShowByName(name):
 
 
 
+# Show all shows actively being watched
 def listShows():
 	cur.execute('select * from shows where state = 0 or state = 1')
 
 	res = cur.fetchall()
 	for item in res:
 		displayShow(item)
+
+
+# Same as list except doesn't hide inactive shows
+def allShows():
+	cur.execute('select * from shows')
+
+	res = cur.fetchall()
+	for item in res:
+		displayShow(item)
+
+	exit()
