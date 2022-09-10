@@ -96,3 +96,35 @@ def addShow():
 
 	log(id1, "ADDED")
 
+
+def getShowByName(name):
+
+	#if empty string, select latest from log
+	if name.strip() == '':
+		cur.execute('SELECT * from logs')
+		# yeah this crashes if the log is empty, *pretends to care*
+		last = cur.fetchall()[-1][2]
+
+		cur.execute('SELECT * FROM shows WHERE id = ?', (last,))
+		return cur.fetchone()
+
+
+	name = name.lower()
+	# only select from shows not hidden by their state
+	# this is anything currently beign watched regardless of whether
+	# last episode was confirmed
+	cur.execute("SELECT * FROM shows WHERE state < 2")
+	res = cur.fetchall()
+
+	sel = None
+	for item in res:
+		if name in item[1].lower():
+			if sel == None:
+				sel = item
+			else:
+				error(f'Multiple shows found! {sel} and {item}')
+
+	if sel == None:
+		error('No show found!')
+
+	return sel
