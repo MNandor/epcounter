@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, allShows
+from db import log, addShow, getShowByName, listShows, allShows, logs
 import sys
 
 args = sys.argv[1:]
@@ -22,4 +22,8 @@ if len(args) == 1 and args[0] == 'add':
 
 if len(args) == 1 and (args[0] == 'shows' or args[0] == 'all'):
 	allShows()
+	exit()
+
+if len(args) == 1 and args[0] == 'logs':
+	logs()
 	exit()

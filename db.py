@@ -2,7 +2,7 @@
 
 import sqlite3
 import time
-from printing import displayShow
+from printing import displayShow, displayLog
 
 # Todo use $HOME instead for file location
 con = sqlite3.connect('Epcounter.db')
@@ -151,3 +151,19 @@ def allShows():
 		displayShow(item)
 
 	exit()
+
+# used to map ids to names
+logsMap = None
+def logs():
+	global logsMap
+	if logsMap == None:
+		cur.execute('select id, name from shows')
+		res = cur.fetchall()
+		logsMap = {x[0]:x[1] for x in res}
+
+
+	cur.execute('select * from logs')
+
+	res = cur.fetchall()
+	for item in res:
+		displayLog(item, logsMap)
