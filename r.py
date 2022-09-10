@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, allShows, logs
+from db import log, addShow, getShowByName, listShows, logs
 from printing import promptShowDetails
 import sys
 
@@ -9,7 +9,7 @@ args = sys.argv[1:]
 
 
 if len(args) == 1 and args[0] == 'list':
-	listShows()
+	listShows(True)
 	exit()
 
 
@@ -19,7 +19,11 @@ if len(args) == 1 and args[0] == 'add':
 	exit()
 
 if len(args) == 1 and (args[0] == 'shows' or args[0] == 'all'):
-	allShows()
+	listShows(False)
+	exit()
+
+if len(args) > 1 and args[0] == 'grep':
+	listShows(False, ' '.join(args[1:]))
 	exit()
 
 if len(args) == 1 and args[0] == 'logs':
