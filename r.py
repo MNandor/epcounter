@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log
+from db import log, addShow
 
 def error(msg):
 	print(msg)
@@ -8,4 +8,3 @@ def error(msg):
 	exit()
 
 
-log(1, "hi")

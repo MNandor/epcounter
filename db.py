@@ -67,3 +67,32 @@ def log(showID, action):
 
 	cur.execute('INSERT INTO logs(timestamp, show, action) values (?,?,?)', (now, showID, action))
 	con.commit()
+
+
+def addShow():
+	# Todo: inputs shouldn't be in db.py
+	name = input('Name: ')
+	url = input('URL (\'@\' for the number): ')
+	padding = input('Padding (default 0): ')
+	state = input('State? (0=watch, 3=to watch, 4=maybe watch)')
+
+	if state != '':
+		state = int(state)
+	else:
+		# default value
+		state = 4
+
+	if padding.strip() == '': padding = '0'
+	padding = int(padding)
+
+	cur.execute('INSERT into shows(name, url, padding, state) values (?,?,?,?)', (name, url, padding, state))
+	id1 = int(cur.lastrowid)
+
+	cur.execute('SELECT MAX(id) from shows')
+
+	id2 = cur.fetchone()[0]
+
+	print(f'Inserted at ID {id1} {id2}')
+
+	log(id1, "ADDED")
+
