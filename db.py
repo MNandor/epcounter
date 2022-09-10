@@ -1,7 +1,9 @@
 #!/bin/python3
 
 import sqlite3
+import time
 
+# Todo use $HOME instead for file location
 con = sqlite3.connect('Epcounter.db')
 cur = con.cursor()
 
@@ -59,3 +61,9 @@ def create_db():
 	con.commit()
 
 create_db()
+
+def log(showID, action):
+	now = int(time.time())
+
+	cur.execute('INSERT INTO logs(timestamp, show, action) values (?,?,?)', (now, showID, action))
+	con.commit()
