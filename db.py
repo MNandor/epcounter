@@ -3,7 +3,7 @@
 import sqlite3
 import time
 from printing import displayShow, displayLog, error, selectShow, displayFinishes
-from opener import seekOpenings
+from opener import seekOpenings, startWatching
 
 # Todo use $HOME instead for file location
 con = sqlite3.connect('Epcounter.db')
@@ -231,3 +231,93 @@ def changeState():
 		oldstate = int(cur.fetchall()[0][0])
 		cur.execute('UPDATE shows SET state = ? WHERE id = ?', (state, id))
 		log(id, f'STATE CHANGE FROM {oldstate} to {state}')
+
+
+def executeCommand(command, show):
+	alsoOpen = False
+
+	# do this at the end
+	if 'o' in command:
+		command = command.replace('o', '')
+		alsoOpen = True
+
+	"""MODES
+		n: set next episode to n
+		+n: set next episode to current next +n
+		+++: like above but count plus signs
+		++n: error
+	"""
+
+
+	#User started watching this episode but never confirmed finishing it, handle this
+	if show[3] == 1 or command == '0': #or part necessary in case user forgets if it's been opened or not
+
+		# Presuming having finished
+		if command == '':
+
+			cur.execute('SELECT * FROM logs WHERE show = ? and action = ?', (show[0], f'BEGAN EPISODE {show[4]}'))
+			mylog = cur.fetchall()[-1]
+
+			diff = int(time.time()) - mylog[1]
+			diff = diff/60/60
+
+			ans = input(f'Did you finish watching episode {show[4]}, {diff} hours ago?')
+
+			if ans.lower() in ['yes', 'y']:
+				cur.execute('UPDATE shows SET state = 0, next = ? WHERE id = ?', (show[4]+1, show[0]))
+				log(show[0], f'MARKED FINISHED EPISODE {show[4]}')
+				print(f'Episode {show[4]} marked finished.')
+				show = list(show)
+				show[4]+=1
+			else:
+				command = '0'
+
+
+		# This is the command for "I did not finish this episode"
+		if command == '0':
+			cur.execute('UPDATE shows SET state = 0 WHERE id = ?', (show[0],))
+			log(show[0], f'DID NOT FINISH EPISODE {show[4]}')
+			print(f'Episode {show[4]} marked unfinished.')
+			command = ''
+
+		# If neither, then we have a set command. In this case, the user tells us what episode is next, so this check is irrelevant.
+		# Note: '+' is a set command and is equivalent to "yes, I finished it"
+
+
+	runUpdate = True
+
+	pc = command.count('+')
+	command = command.replace('+', '')
+
+	nextEp = show[4]
+
+	if pc == 0:
+		if command == '': runUpdate = False
+		else: nextEp = int(command)
+	elif pc == 1:
+		if command == '': nextEp+=1
+		else: nextEp += int(command)
+	else:
+		if command == '': nextEp+=pc
+		else: error('Incorrect command!')
+
+	if runUpdate:
+		print(f'set to {nextEp}')
+		cur.execute('UPDATE shows SET state = 0, next = ? WHERE id = ?', (nextEp, show[0]))
+		log(show[0], f'JUMPED TO {nextEp}')
+
+
+	if alsoOpen:
+		id, name, url, state, next, padding, _, _ = show
+		print(f'Opening episode {next}')
+		next = str(nextEp).zfill(padding) #important: use nextEp, not next
+		url = url.replace('@', str(next))
+
+		if url.strip() != '':
+			startWatching(url)
+		else:
+			print(f'Please open {name} episode {next}')
+
+
+		cur.execute('UPDATE shows SET state = 1 WHERE id = ?', (id,))
+		log(id, f"BEGAN EPISODE {next.lstrip('0')}")

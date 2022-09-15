@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand
 from printing import promptShowDetails
 import sys
 import re
@@ -67,3 +67,5 @@ print((command, show))
 
 show = getShowByName(show)
 print(show[1])
+
+executeCommand(command, show)
