@@ -179,6 +179,7 @@ def editShow():
 	show = selectShow(res, True)[0]
 
 	print('Make changes. Empty answer means unchanged except for URL')
+	# todo give an easy option to leave url unchanged
 
 	newname = input(f'Name: {show[1]} > ')
 	if newname == '': newname = show[1]
