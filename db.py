@@ -167,3 +167,26 @@ def finishShow():
 
 
 
+
+def editShow():
+	cur.execute("SELECT * FROM shows WHERE state < 2")
+	res = cur.fetchall()
+
+	show = selectShow(res, True)[0]
+
+	print('Make changes. Empty answer means unchanged except for URL')
+
+	newname = input(f'Name: {show[1]} > ')
+	if newname == '': newname = show[1]
+
+	newURL = input(f'URL: {show[2]} > ')
+
+
+	newpadding = input(f'Padding: {show[5]} > ')
+	if newpadding == '':
+		newpadding = show[5]
+	else:
+		newpadding = int(newpadding)
+
+	cur.execute('UPDATE shows SET name = ?, url = ?, padding = ?  WHERE id = ?', (newname, newURL, newpadding, show[0]))
+	log(show[0], f"EDITED FROM NAME: {show[1]} URL: {show[2]} PADDING: {show[5]}")

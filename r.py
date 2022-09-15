@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow
 from printing import promptShowDetails
 import sys
 
@@ -32,3 +32,6 @@ if len(args) == 1 and args[0] == 'logs':
 
 if len(args) == 1 and args[0] == 'finish':
 	finishShow()
+
+if len(args) == 1 and args[0] == 'edit':
+	editShow()
