@@ -393,3 +393,28 @@ def removeTag():
 		
 		cur.execute('UPDATE shows SET tags = ? WHERE id = ?', (tags, id))
 		log(id, f"SET TAGS {tags}")
+
+def changeReference():
+	cur.execute("SELECT * FROM shows")
+	res = cur.fetchall()
+
+	print('Which show to change?')
+
+	showC = selectShow(res, True)[0]
+
+	print('Which show to reference?')
+
+	showR = selectShow(res, True)[0]
+
+	isRewatch = input('Is this a new season (0) or rewatch (1)? ').strip() == '1'
+
+	c = showC[0]
+	r = showR[0]
+
+	if isRewatch:
+		r = -r
+
+	print(f'{c} -> {r}')
+	cur.execute('UPDATE shows SET reference = ? WHERE id = ?', (r, c))
+	log(c, f"SET REFERENCE {r}")
+

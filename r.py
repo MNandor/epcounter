@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference
 from printing import promptShowDetails
 import sys
 import re
@@ -55,6 +55,10 @@ if len(args) == 1:
 
 	if args[0] in ['untag', 'removetag']:
 		removeTag()
+		exit()
+
+	if args[0] in ['changereference', 'reference', 'refer', 'rewatch', 'season', 'newseason']:
+		changeReference()
 		exit()
 
 
