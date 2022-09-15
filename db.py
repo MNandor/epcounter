@@ -197,3 +197,37 @@ def showFinishes():
 	res = cur.fetchall()
 
 	displayFinishes(res)
+
+
+def changeState():
+	# != 2 hides finished shows for convenience
+	# but they're still editable if you get the ID from "all"
+	# todo swap to normal selectShow
+	cur.execute('select * from shows where state != 2')
+
+	res = cur.fetchall()
+	shows = selectShow(res, False)
+	ids = [x[0] for x in shows]
+
+	print('Selected:')
+	for item in res:
+		if item[0] in ids:
+			print(item[1])
+
+	print('Desired state?')
+
+	print('''STATES
+	0 neutral
+	1 requires "did you watch" confirmation
+	2 finished
+	3 watch list
+	4 maybe watch list
+	''')
+
+	state = int(input())
+
+	for id in ids:
+		cur.execute('SELECT state FROM shows WHERE id = ?', (id,))
+		oldstate = int(cur.fetchall()[0][0])
+		cur.execute('UPDATE shows SET state = ? WHERE id = ?', (state, id))
+		log(id, f'STATE CHANGE FROM {oldstate} to {state}')

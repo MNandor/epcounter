@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState
 from printing import promptShowDetails
 import sys
 
@@ -36,6 +36,10 @@ if len(args) == 1:
 
 	if args[0] == 'finishes':
 		showFinishes()
+		exit()
+
+	if args[0] == 'change':
+		changeState()
 		exit()
 
 
