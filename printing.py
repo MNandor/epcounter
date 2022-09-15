@@ -54,3 +54,23 @@ def promptShowDetails():
 	padding = int(padding)
 
 	return (name, url, padding, state)
+
+def selectShow(array, singular = False):
+	for item in array:
+		dShow(item)
+
+	print('\n\nType selected ID'+(' or IDs' if not singular else ''))
+	ids = [int(x) for x in input().strip().split()]
+
+	selected = [x for x in array if x[0] in ids]
+
+	if singular:
+		selected = [selected[0]]
+
+	print('\n\nPress Enter to confirm this selection:')
+	for item in selected:
+		dShow(item)
+
+	input()
+
+	return selected
