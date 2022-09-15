@@ -8,30 +8,34 @@ args = sys.argv[1:]
 
 
 
-if len(args) == 1 and args[0] == 'list':
-	listShows(True)
-	exit()
+if len(args) == 1:
+	if args[0] == 'list':
+		listShows(True)
+		exit()
+
+	if args[0] == 'add':
+		item = promptShowDetails()
+		addShow(item)
+		exit()
+
+	if (args[0] == 'shows' or args[0] == 'all'):
+		listShows(False)
+		exit()
+
+	if args[0] == 'logs':
+		logs()
+		exit()
+
+	if args[0] == 'finish':
+		finishShow()
+		exit()
+
+	if args[0] == 'edit':
+		editShow()
+		exit()
 
 
-if len(args) == 1 and args[0] == 'add':
-	item = promptShowDetails()
-	addShow(item)
-	exit()
-
-if len(args) == 1 and (args[0] == 'shows' or args[0] == 'all'):
-	listShows(False)
-	exit()
-
-if len(args) > 1 and args[0] == 'grep':
-	listShows(False, ' '.join(args[1:]))
-	exit()
-
-if len(args) == 1 and args[0] == 'logs':
-	logs()
-	exit()
-
-if len(args) == 1 and args[0] == 'finish':
-	finishShow()
-
-if len(args) == 1 and args[0] == 'edit':
-	editShow()
+if len(args) > 1:
+	if args[0] == 'grep':
+		listShows(False, ' '.join(args[1:]))
+		exit()
