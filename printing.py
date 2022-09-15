@@ -57,7 +57,7 @@ def promptShowDetails():
 
 def selectShow(array, singular = False):
 	for item in array:
-		dShow(item)
+		displayShow(item)
 
 	print('\n\nType selected ID'+(' or IDs' if not singular else ''))
 	ids = [int(x) for x in input().strip().split()]
@@ -69,7 +69,7 @@ def selectShow(array, singular = False):
 
 	print('\n\nPress Enter to confirm this selection:')
 	for item in selected:
-		dShow(item)
+		displayShow(item)
 
 	input()
 

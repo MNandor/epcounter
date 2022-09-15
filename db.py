@@ -2,7 +2,8 @@
 
 import sqlite3
 import time
-from printing import displayShow, displayLog, error
+from printing import displayShow, displayLog, error, selectShow
+from opener import seekOpenings
 
 # Todo use $HOME instead for file location
 con = sqlite3.connect('Epcounter.db')
@@ -148,3 +149,21 @@ def logs():
 	res = cur.fetchall()
 	for item in res:
 		displayLog(item, logsMap)
+
+
+
+def finishShow():
+	cur.execute("SELECT * FROM shows WHERE state < 2")
+	res = cur.fetchall()
+
+	print('Which show did you finish?')
+
+	show = selectShow(res, True)[0]
+
+	cur.execute('UPDATE shows SET state = 2 WHERE id = ?', (show[0], ))
+	log(show[0], f"BEGAN EPISODE {show[4]}")
+
+	seekOpenings(show[1].replace(' ', '+'))
+
+
+
