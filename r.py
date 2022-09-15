@@ -3,6 +3,7 @@
 from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState
 from printing import promptShowDetails
 import sys
+import re
 
 args = sys.argv[1:]
 
@@ -47,3 +48,22 @@ if len(args) > 1:
 	if args[0] == 'grep':
 		listShows(False, ' '.join(args[1:]))
 		exit()
+
+
+commandre = re.compile('^([0-9o\+])+$')
+
+
+if len(args) > 0 and commandre.match(args[0]) != None:
+	command = args[0]
+	args = args[1:]
+else:
+	command = 'o'
+
+
+
+show = ' '.join(args).strip()
+
+print((command, show))
+
+show = getShowByName(show)
+print(show[1])
