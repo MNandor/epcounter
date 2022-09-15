@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag
 from printing import promptShowDetails
 import sys
 import re
@@ -47,6 +47,10 @@ if len(args) == 1:
 		print('Note: use "all" or "search" to find ID')
 		id = int(input('ID: '))
 		logSearch(id)
+		exit()
+
+	if args[0] in ['tag']:
+		addTag()
 		exit()
 
 

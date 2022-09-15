@@ -41,7 +41,7 @@ def create_db():
 		state INTEGER DEFAULT 0,
 		next INTEGER DEFAULT 1,
 		padding INTEGER DEFAULT 0,
-		tags TEXT,
+		tags TEXT DEFAULT '',
 		reference INTEGER DEFAULT 0
 	);""")
 
@@ -334,3 +334,37 @@ def logSearch(id):
 		if item[2] == id:
 			displayLog(item, logsMap)
 	exit()
+
+def addTag():
+	cur.execute("SELECT * FROM shows")
+	res = cur.fetchall()
+
+	print('Which show(s) to tag?')
+
+	shows = selectShow(res, False)
+
+	# todo print existing tags in all shows
+
+	for show in shows:
+		print(show)
+		existingTags = show[6].split(',')
+
+		newTags = input('What tags to add? ').split(',')
+
+		tags = set(existingTags)|set(newTags)
+		tags = sorted(list(tags))
+		if '' in tags:
+			tags.remove('')
+		tags = ','.join(tags)
+
+		print(tags)
+
+		id = show[0]
+		
+		cur.execute('UPDATE shows SET tags = ? WHERE id = ?', (tags, id))
+		log(id, f"SET TAGS {tags}")
+
+
+
+def removeTag():
+	pass
