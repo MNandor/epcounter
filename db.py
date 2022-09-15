@@ -2,7 +2,7 @@
 
 import sqlite3
 import time
-from printing import displayShow, displayLog, error, selectShow
+from printing import displayShow, displayLog, error, selectShow, displayFinishes
 from opener import seekOpenings
 
 # Todo use $HOME instead for file location
@@ -161,7 +161,7 @@ def finishShow():
 	show = selectShow(res, True)[0]
 
 	cur.execute('UPDATE shows SET state = 2 WHERE id = ?', (show[0], ))
-	log(show[0], f"BEGAN EPISODE {show[4]}")
+	log(show[0], f"FINISHED SHOW")
 
 	seekOpenings(show[1].replace(' ', '+'))
 
@@ -190,3 +190,10 @@ def editShow():
 
 	cur.execute('UPDATE shows SET name = ?, url = ?, padding = ?  WHERE id = ?', (newname, newURL, newpadding, show[0]))
 	log(show[0], f"EDITED FROM NAME: {show[1]} URL: {show[2]} PADDING: {show[5]}")
+
+
+def showFinishes():
+	cur.execute('SELECT shows.name, (logs.timestamp) FROM shows LEFT JOIN logs ON logs.show = shows.id WHERE shows.state == 2 and logs.action = \'FINISHED SHOW\' GROUP BY shows.id ORDER BY logs.timestamp')
+	res = cur.fetchall()
+
+	displayFinishes(res)

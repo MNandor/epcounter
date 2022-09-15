@@ -74,3 +74,14 @@ def selectShow(array, singular = False):
 	input()
 
 	return selected
+
+def displayFinishes(res):
+
+	for r in res:
+		name, stamp = r
+		if stamp == None:
+			stamp = '???'
+		else:
+			stamp = datetime.fromtimestamp(stamp).strftime('%Y-%b-%d')
+		print(f'{stamp} {name}')
+
