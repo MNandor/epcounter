@@ -344,6 +344,7 @@ def addTag():
 	shows = selectShow(res, False)
 
 	# todo print existing tags in all shows
+	# todo ask for what tags to add only once
 
 	for show in shows:
 		print(show)
@@ -367,4 +368,28 @@ def addTag():
 
 
 def removeTag():
-	pass
+	cur.execute("SELECT * FROM shows")
+	res = cur.fetchall()
+
+	print('Which show(s) to untag?')
+
+	shows = selectShow(res, False)
+
+	for show in shows:
+		print(show)
+		existingTags = show[6].split(',')
+
+		newTags = input('What tags to remove? ').split(',')
+
+		tags = set(existingTags)-set(newTags)
+		tags = sorted(list(tags))
+		if '' in tags:
+			tags.remove('')
+		tags = ','.join(tags)
+
+		print(tags)
+
+		id = show[0]
+		
+		cur.execute('UPDATE shows SET tags = ? WHERE id = ?', (tags, id))
+		log(id, f"SET TAGS {tags}")

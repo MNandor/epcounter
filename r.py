@@ -53,6 +53,10 @@ if len(args) == 1:
 		addTag()
 		exit()
 
+	if args[0] in ['untag', 'removetag']:
+		removeTag()
+		exit()
+
 
 if len(args) > 1:
 	if args[0] in ['grep', 'search']:
