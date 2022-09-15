@@ -31,21 +31,21 @@ if len(args) == 1:
 		finishShow()
 		exit()
 
-	if args[0] == 'edit':
+	if args[0] in ['edit', 'modify']:
 		editShow()
 		exit()
 
-	if args[0] == 'finishes':
+	if args[0] in ['finishes', 'history']:
 		showFinishes()
 		exit()
 
-	if args[0] == 'change':
+	if args[0] in ['change', 'changestate']:
 		changeState()
 		exit()
 
 
 if len(args) > 1:
-	if args[0] == 'grep':
+	if args[0] in ['grep', 'search']:
 		listShows(False, ' '.join(args[1:]))
 		exit()
 

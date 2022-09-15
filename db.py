@@ -202,7 +202,6 @@ def showFinishes():
 def changeState():
 	# != 2 hides finished shows for convenience
 	# but they're still editable if you get the ID from "all"
-	# todo swap to normal selectShow
 	cur.execute('select * from shows where state != 2')
 
 	res = cur.fetchall()
