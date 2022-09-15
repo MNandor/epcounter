@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch
 from printing import promptShowDetails
 import sys
 import re
@@ -41,6 +41,12 @@ if len(args) == 1:
 
 	if args[0] in ['change', 'changestate']:
 		changeState()
+		exit()
+
+	if args[0] in ['logsearch', 'searchlogs']:
+		print('Note: use "all" or "search" to find ID')
+		id = int(input('ID: '))
+		logSearch(id)
 		exit()
 
 

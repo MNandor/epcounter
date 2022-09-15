@@ -136,13 +136,17 @@ def listShows(visibleOnly = False, grep=''):
 
 # used to map ids to names
 logsMap = None
-def logs():
+
+def updateLogsMap():
 	global logsMap
 	if logsMap == None:
 		cur.execute('select id, name from shows')
 		res = cur.fetchall()
 		logsMap = {x[0]:x[1] for x in res}
 
+def logs():
+	global logsMap
+	updateLogsMap()
 
 	cur.execute('select * from logs')
 
@@ -320,3 +324,13 @@ def executeCommand(command, show):
 
 		cur.execute('UPDATE shows SET state = 1 WHERE id = ?', (id,))
 		log(id, f"BEGAN EPISODE {next.lstrip('0')}")
+
+def logSearch(id):
+	global logsMap
+	updateLogsMap()
+
+	cur.execute('select * from logs where show = ?', (id,))
+	for item in cur.fetchall():
+		if item[2] == id:
+			displayLog(item, logsMap)
+	exit()
