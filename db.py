@@ -2,11 +2,14 @@
 
 import sqlite3
 import time
+import os
 from printing import displayShow, displayLog, error, selectShow, displayFinishes
 from opener import seekOpenings, startWatching
 
 # Todo use $HOME instead for file location
-con = sqlite3.connect('Epcounter.db')
+HOME=os.path.expanduser('~')+'/.local/share/mnprograms/'
+os.makedirs(HOME, exist_ok=True)
+con = sqlite3.connect(HOME+'Epcounter.db')
 cur = con.cursor()
 
 
