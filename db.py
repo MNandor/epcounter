@@ -201,7 +201,7 @@ def editShow():
 
 
 def showFinishes():
-	cur.execute('SELECT shows.name, (logs.timestamp) FROM shows LEFT JOIN logs ON logs.show = shows.id WHERE shows.state == 2 and logs.action = \'FINISHED SHOW\' GROUP BY shows.id ORDER BY logs.timestamp')
+	cur.execute('SELECT shows.name, (logs.timestamp) FROM shows LEFT JOIN logs ON logs.show = shows.id WHERE shows.state == 2 GROUP BY shows.id ORDER BY logs.timestamp')
 	res = cur.fetchall()
 
 	displayFinishes(res)
