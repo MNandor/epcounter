@@ -61,6 +61,11 @@ if len(args) == 1:
 		changeReference()
 		exit()
 
+	if args[0] in ['grep', 'search']:
+		term = input("Search term: ")
+		listShows(False, term)
+		exit()
+
 
 if len(args) > 1:
 	if args[0] in ['grep', 'search']:
