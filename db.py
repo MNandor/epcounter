@@ -4,7 +4,7 @@ import sqlite3
 import time
 import os
 from printing import displayShow, displayLog, error, selectShow, displayFinishes
-from opener import seekOpenings, startWatching
+from opener import seekOpenings, startWatching, writeTitles
 
 # Todo use $HOME instead for file location
 HOME=os.path.expanduser('~')+'/.local/share/mnprograms/'
@@ -171,6 +171,8 @@ def finishShow():
 	log(show[0], f"FINISHED SHOW")
 
 	seekOpenings(show[1].replace(' ', '+'))
+
+	writeTitles()
 
 
 

@@ -2,6 +2,10 @@
 
 import webbrowser
 import subprocess
+import os
+
+HOME=os.path.expanduser('~')+'/.local/share/mnprograms/'
+
 
 # finished watching, but still want to listen to songs?
 def seekOpenings(title):
@@ -18,3 +22,15 @@ def startWatching(link):
 	else:
 		# todo there's probably still a way to guess
 		print('>>>'+link)
+
+
+def writeTitles():
+	print('Add to list of alternative titles. These are not case-sensitive and used for checking for new seasons.')
+	print('Add titles to search for. End with an empty line.')
+	while True:
+		title = input('> ')
+		if title == '':
+			return
+
+		with open(HOME+'alttitles.txt', 'at') as ofs:
+			ofs.write(title+'\n')
