@@ -1,7 +1,7 @@
 #!/bin/python3
 
 from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference
-from printing import promptShowDetails
+from printing import promptShowDetails, stringToShow
 import sys
 import re
 
@@ -22,6 +22,20 @@ if len(args) == 1:
 		if arg in cmd:
 			lamb()
 			exit()
+
+# Command, function to execute, function if there is no argument, function if there are
+cmdArg=[
+	(['dog'], lambda: print('hi'), lambda: input(), lambda x: print(stringToShow(x))),
+]
+
+for cmd, lamb, funIsnt, funIs in cmdArg:
+	if args[0] in cmd:
+		if len(args) == 1:
+			funIsnt()
+		else:
+			args = ' '.join(args[1:])
+			funIs(args)
+		exit()
 
 
 if len(args) == 1:

@@ -75,6 +75,12 @@ def selectShow(array, singular = False):
 
 	return selected
 
+def stringToShow(text):
+	if text.isnumeric():
+		return 'hiss'
+	return 'bye'
+
+
 def displayFinishes(res):
 
 	for r in res:
