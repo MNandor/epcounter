@@ -23,66 +23,35 @@ if len(args) == 1:
 			lamb()
 			exit()
 
+
+ns = lambda x: exit('not supported')
+nn = lambda: None
+
 # Command, function to execute, function if there is no argument, function if there are
 cmdArg=[
-	(['dog'], lambda: print('hi'), lambda: input(), lambda x: print(stringToShow(x))),
+	(['dog'], lambda x: print('hi'), lambda: input(), lambda x: print(stringToShow(x))),
+	(['add'], lambda x: addShow(x), lambda: promptShowDetails(), ns),
+	(['finish'], lambda x: finishShow(), nn,  ns),
+	(['edit', 'modify'], lambda x: editShow(), nn, ns),
+	(['change', 'changestate'], lambda x: changeState(), nn, ns),
+	(['logsearch', 'searchlogs'], lambda x: logSearch(x), lambda: int(input('Show ID: ')), ns),
+	(['tag'], lambda x: addTag(), nn,  ns),
+	(['untag', 'removetag'], lambda x: removeTag(), nn,  ns),
+	(['changereference', 'reference', 'refer', 'rewatch', 'season', 'newseason'], lambda x: changeReference(), nn,  ns),
+	(['grep', 'search'], lambda x: listShows(False, x), lambda: input("Search term: "), lambda x: x),
 ]
 
+# Handle commands with potentional arguments
 for cmd, lamb, funIsnt, funIs in cmdArg:
 	if args[0] in cmd:
 		if len(args) == 1:
-			funIsnt()
+			x = funIsnt()
+			print(x)
+			lamb(x)
 		else:
 			args = ' '.join(args[1:])
-			funIs(args)
-		exit()
-
-
-if len(args) == 1:
-	if args[0] == 'add':
-		item = promptShowDetails()
-		addShow(item)
-		exit()
-
-	if args[0] == 'finish':
-		finishShow()
-		exit()
-
-	if args[0] in ['edit', 'modify']:
-		editShow()
-		exit()
-
-	if args[0] in ['change', 'changestate']:
-		changeState()
-		exit()
-
-	if args[0] in ['logsearch', 'searchlogs']:
-		print('Note: use "all" or "search" to find ID')
-		id = int(input('ID: '))
-		logSearch(id)
-		exit()
-
-	if args[0] in ['tag']:
-		addTag()
-		exit()
-
-	if args[0] in ['untag', 'removetag']:
-		removeTag()
-		exit()
-
-	if args[0] in ['changereference', 'reference', 'refer', 'rewatch', 'season', 'newseason']:
-		changeReference()
-		exit()
-
-	if args[0] in ['grep', 'search']:
-		term = input("Search term: ")
-		listShows(False, term)
-		exit()
-
-
-if len(args) > 1:
-	if args[0] in ['grep', 'search']:
-		listShows(False, ' '.join(args[1:]))
+			x = funIs(args)
+			lamb(x)
 		exit()
 
 
