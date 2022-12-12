@@ -7,24 +7,27 @@ import re
 
 args = sys.argv[1:]
 
+# Command, function to execute
+cmdArgless=[
+	(['list'], lambda: listShows(True)),
+	(['shows', 'all'], lambda: listShows(False)),
+	(['logs'], lambda: logs()),
+	(['finishes', 'history'], lambda: showFinishes()),
+]
+
+# Handle commands with no arguments
+if len(args) == 1:
+	arg = args[0]
+	for cmd, lamb in cmdArgless:
+		if arg in cmd:
+			lamb()
+			exit()
 
 
 if len(args) == 1:
-	if args[0] == 'list':
-		listShows(True)
-		exit()
-
 	if args[0] == 'add':
 		item = promptShowDetails()
 		addShow(item)
-		exit()
-
-	if (args[0] == 'shows' or args[0] == 'all'):
-		listShows(False)
-		exit()
-
-	if args[0] == 'logs':
-		logs()
 		exit()
 
 	if args[0] == 'finish':
@@ -33,10 +36,6 @@ if len(args) == 1:
 
 	if args[0] in ['edit', 'modify']:
 		editShow()
-		exit()
-
-	if args[0] in ['finishes', 'history']:
-		showFinishes()
 		exit()
 
 	if args[0] in ['change', 'changestate']:
