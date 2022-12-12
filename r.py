@@ -7,28 +7,17 @@ import re
 
 args = sys.argv[1:]
 
-# Command, function to execute
-cmdArgless=[
-	(['list'], lambda: listShows(True)),
-	(['shows', 'all'], lambda: listShows(False)),
-	(['logs'], lambda: logs()),
-	(['finishes', 'history'], lambda: showFinishes()),
-]
-
-# Handle commands with no arguments
-if len(args) == 1:
-	arg = args[0]
-	for cmd, lamb in cmdArgless:
-		if arg in cmd:
-			lamb()
-			exit()
-
-
+# define missing lambdas
 ns = lambda x: exit('not supported')
 nn = lambda: None
 
 # Command, function to execute, function if there is no argument, function if there are
 cmdArg=[
+	(['list', 'ls'], lambda x: listShows(True), nn, ns),
+	(['shows', 'all'], lambda x: listShows(False), nn, ns),
+	(['logs'], lambda x: logs(), nn, ns),
+	(['finishes', 'history'], lambda x: showFinishes(), nn, ns),
+
 	(['dog'], lambda x: print('hi'), lambda: input(), lambda x: print(stringToShow(x))),
 	(['add'], lambda x: addShow(x), lambda: promptShowDetails(), ns),
 	(['finish'], lambda x: finishShow(), nn,  ns),
