@@ -1,31 +1,32 @@
 #!/bin/python3
-import requests
-from bs4 import BeautifulSoup
-import os
 
-source = requests.get('https://myanimelist.net/anime/season').text
+def checkSeasonalAnime():
+	import requests
+	from bs4 import BeautifulSoup
+	import os
 
-soup = BeautifulSoup(source, features='html5lib')
+	source = requests.get('https://myanimelist.net/anime/season').text
 
-HOME=os.path.expanduser('~')+'/.local/share/mnprograms/'
+	soup = BeautifulSoup(source, features='html5lib')
 
-
-with open(HOME+'alttitles.txt') as ifs:
-	searchterms = [x.strip() for x in ifs.readlines()]
-	print(searchterms)
+	HOME=os.path.expanduser('~')+'/.local/share/mnprograms/'
 
 
-titles = soup.find_all(class_='link-title')
+	with open(HOME+'alttitles.txt') as ifs:
+		searchterms = [x.strip() for x in ifs.readlines()]
 
-for n, tit in enumerate(titles):
 
-	name = tit.contents[0]
-	link = tit['href']
+	titles = soup.find_all(class_='link-title')
 
-	findany = any([term.lower() in name.lower() for term in searchterms])
-	
-	if findany:
-		print(f'[{n}] \033[92m{name}\033[0m')
-	else:	
-		print(f'[{n}] {name}')
+	for n, tit in enumerate(titles):
+
+		name = tit.contents[0]
+		link = tit['href']
+
+		findany = any([term.lower() in name.lower() for term in searchterms])
 		
+		if findany:
+			print(f'[{n}] \033[92m{name}\033[0m')
+		else:	
+			print(f'[{n}] {name}')
+			

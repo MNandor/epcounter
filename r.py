@@ -4,6 +4,7 @@ from db import log, addShow, getShowByName, listShows, logs, finishShow, editSho
 from printing import promptShowDetails, stringToShow
 import sys
 import re
+from newSeason import checkSeasonalAnime
 
 args = sys.argv[1:]
 
@@ -66,6 +67,10 @@ cmdArg=[
 		lambda x: listShows(False, x),
 		lambda: input("Search term: "),
   		lambda x: x),
+	(['checkseasonal', 'seasonal'],
+		lambda x: checkSeasonalAnime(),
+		nn,
+  		ns),
 ]
 
 # Handle commands with potentional arguments
