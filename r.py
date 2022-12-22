@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference, listTags
 from printing import promptShowDetails, stringToShow
 import sys
 import re
@@ -93,6 +93,12 @@ cmdArg=[
 		ns,
 		"Remove a custom tag from a show.",
 	),
+	(['tags', 'listtags'],
+		lambda x: listTags(),
+		nn,
+		ns,
+		"List all used custom tags.",
+	),
 	(['changereference', 'reference', 'refer', 'rewatch', 'season', 'newseason'],
 		lambda x: changeReference(),
 		nn,
@@ -118,7 +124,6 @@ for cmd, lamb, funIsnt, funIs, _ in cmdArg:
 	if args[0] in cmd:
 		if len(args) == 1:
 			x = funIsnt()
-			print(x)
 			lamb(x)
 		else:
 			args = ' '.join(args[1:])

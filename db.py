@@ -400,6 +400,19 @@ def removeTag():
 		cur.execute('UPDATE shows SET tags = ? WHERE id = ?', (tags, id))
 		log(id, f"SET TAGS {tags}")
 
+def listTags():
+	cur.execute("SELECT distinct tags FROM shows")
+	res = cur.fetchall()
+	res = [x[0].split(',') for x in res]
+
+	res = [item for sublist in res for item in sublist]
+
+	if '' in res:
+		res.remove('')
+
+	print(','.join(res))
+
+
 def changeReference():
 	cur.execute("SELECT * FROM shows")
 	res = cur.fetchall()
