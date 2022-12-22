@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference, listTags
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference, listTags, searchByTag
 from printing import promptShowDetails, stringToShow
 import sys
 import re
@@ -98,6 +98,12 @@ cmdArg=[
 		nn,
 		ns,
 		"List all used custom tags.",
+	),
+	(['searchbytag', 'tagsearch'],
+		lambda x: searchByTag(),
+		nn,
+		ns,
+		"Search through shows by custom tag.",
 	),
 	(['changereference', 'reference', 'refer', 'rewatch', 'season', 'newseason'],
 		lambda x: changeReference(),

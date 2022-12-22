@@ -413,6 +413,21 @@ def listTags():
 	print(','.join(res))
 
 
+def searchByTag():
+	print('Available tags:')
+	listTags()
+
+	tag = input('Tag to search for: ')
+
+	cur.execute("SELECT * FROM shows WHERE tags LIKE ?", (f'%{tag}%',))
+	res = cur.fetchall()
+
+	for item in res:
+		displayShow(item)
+
+
+
+
 def changeReference():
 	cur.execute("SELECT * FROM shows")
 	res = cur.fetchall()
