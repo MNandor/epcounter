@@ -270,7 +270,22 @@ def executeCommand(command, show):
 			diff = int(time.time()) - mylog[1]
 			diff = diff/60/60
 
-			ans = input(f'Did you finish watching episode {show[4]}, {diff} hours ago?')
+			days = int(diff // 24)
+			diff = diff % 24
+			hours, minutes = int(diff), int(60*(diff-int(diff)))
+
+			timespan = []
+			if days > 0:
+				timespan += [f'{days} days']
+
+			if hours > 0:
+				timespan += [f'{hours} hours']
+
+			timespan += [f'{minutes} minutes']
+
+			timespan = ', '.join(timespan)
+
+			ans = input(f'Did you finish watching episode {show[4]}, {timespan} ago?')
 
 			if ans.lower() in ['yes', 'y']:
 				cur.execute('UPDATE shows SET state = 0, next = ? WHERE id = ?', (show[4]+1, show[0]))
