@@ -467,3 +467,16 @@ def changeReference():
 	cur.execute('UPDATE shows SET reference = ? WHERE id = ?', (r, c))
 	log(c, f"SET REFERENCE {r}")
 
+def showReferences():
+	cur.execute('SELECT s.name, r.name, s.reference > 0, s.id, r.id FROM shows s LEFT JOIN shows r ON s.reference = r.id OR -s.reference = r.id WHERE s.reference != 0 ORDER BY r.name')
+
+	a = cur.fetchall()
+	for b in a:
+		new, old, season, sid, rid = b
+		if season:
+			season = 'new season'
+		else:
+			season = 'rewatch'
+
+		print(f'[{rid}]{old} has a {season}: [{sid}]{new}')
+

@@ -1,6 +1,6 @@
 #!/bin/python3
 
-from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference, listTags, searchByTag
+from db import log, addShow, getShowByName, listShows, logs, finishShow, editShow, showFinishes, changeState, executeCommand, logSearch, addTag, removeTag, changeReference, listTags, searchByTag, showReferences
 from printing import promptShowDetails, stringToShow
 import sys
 import re
@@ -110,6 +110,12 @@ cmdArg=[
 		nn,
 		ns,
 		"Reference a previous season or previous watch of a show.",
+	),
+	(['references', 'showreferences'],
+		lambda x: showReferences(),
+		nn,
+		ns,
+		"Display a list of references including rewatches and new seasons."
 	),
 	(['grep', 'search'],
 		lambda x: listShows(False, x),
